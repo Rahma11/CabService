@@ -1,4 +1,6 @@
-<?php require_once (realpath(dirname(__FILE__)."/../../../core/employee_service.php")); ?>
+<?php require_once (realpath(dirname(__FILE__)."/../../../core/validation_service.php")); ?>
+<?php require_once (realpath(dirname(__FILE__)."/../../../core/customer_service.php")); ?>
+<?php require_once (realpath(dirname(__FILE__)."/../../../core/rides_service.php")); ?>
 
 <?php
 
@@ -7,7 +9,7 @@
         header("location: ../../Login.html");
     }
     else{
-        $employee = getEmployeeById($_SESSION['id']);
+        $customer = getCustomerById($_SESSION['id']);
     }
 
 ?>
@@ -20,7 +22,7 @@
 
 <body>
 
-    <table width="100%" border="1px" height="630px" cellpadding="20px" cellspacing="0px" align="center">
+    <table width="100%" border="1px" height="600px" cellpadding="20px" cellspacing="0px" align="center">
 
         <tr>
             <td valign="middle" height="50px" colspan="3">
@@ -28,7 +30,7 @@
 
                 <div align="right">
 
-                    Logged in as <a href="Profile.html"><?=$employee['name'];?></a> |
+                    Logged in as <a href="Profile.html"><?=$customer['name'];?></a> |
                     <a href="../../Home.html">Logout</a>
 
                 </div>
@@ -53,17 +55,16 @@
 
                 </ul>
 
-                <h2>Admin Section</h2>
+                <h2>Customer Section</h2>
                 <hr>
                 <ul>
 
-                    <li><a href="../AdminSection/Revenue.html">View Revenue</a></li>
-                    <li><a href="../AdminSection/CreateEmployee.html">Create Employee</a></li>
-                    <li><a href="../AdminSection/ViewCustomers.html">View Customers</a></li>
-                    <li><a href="../AdminSection/ViewEmployees.html">View Employees</a></li>
-                    <li><a href="../AdminSection/ViewFares.html">View all Fares</a></li>
-                    <li><a href="../AdminSection/Insights.html">Insights</a></li>
-                    <li><a href="../AdminSection/ComplainBook.html">Complain Book</a></li>
+                    <li><a href="../CustomerSection/BookRide.html">Book a Ride</a></li>
+                    <li><a href="../CustomerSection/RideHistory.html">Ride History</a></li>
+                    <li><a href="../CustomerSection/CancelRide.html">Cancel Booked Ride</a></li>
+                    <li><a href="../CustomerSection/Invoice.html">View Invoices</a></li>
+                    <li><a href="../CustomerSection/Issue.html">Report an Issue</a></li>
+                    <li><a href="../CustomerSection/Review.html">Write a Review</a></li>
 
 
                 </ul>
@@ -84,11 +85,11 @@
 
                                 <td colspan="3">
 
-                                    Name: <?=$employee['name'];?>
-                                    <hr> Username: <?=$employee['username'];?>
-                                    <hr> Email: <?=$employee['email'];?>
-                                    <hr> Gender: <?=$employee['gender'];?>
-                                    <hr> Phone: <?=$employee['phone'];?>
+                                    Name: <?=$customer['name'];?>
+                                    <hr> Username: <?=$customer['username'];?>
+                                    <hr> Email: <?=$customer['email'];?>
+                                    <hr> Gender: <?=$customer['gender'];?>
+                                    <hr> Phone: <?=$customer['phone'];?>
                                     <hr>
 
                                 </td>

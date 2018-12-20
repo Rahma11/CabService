@@ -1,5 +1,6 @@
-<?php require_once (realpath(dirname(__FILE__)."/../../../core/employee_service.php")); ?>
 <?php require_once (realpath(dirname(__FILE__)."/../../../core/validation_service.php")); ?>
+<?php require_once (realpath(dirname(__FILE__)."/../../../core/customer_service.php")); ?>
+<?php require_once (realpath(dirname(__FILE__)."/../../../core/rides_service.php")); ?>
 
 <?php
 
@@ -8,7 +9,7 @@
         header("location: ../../Login.html");
     }
     else{
-        $employee = getEmployeeById($_SESSION['id']);
+        $customer = getCustomerById($_SESSION['id']);
     }
 
     if($_SERVER['REQUEST_METHOD']=="POST"){
@@ -48,7 +49,7 @@
             $errorMessage .= "Phone is not valid!<br>";
         }
         if($status){
-            if(!updateEmployeeProfile($employee['id'], $name, $fullname, $username, $email, $phone, $gender)){
+            if(!updateCustomerProfile($customer['id'], $name, $fullname, $username, $email, $phone, $gender)){
                 $status = false;
             }
         }
@@ -60,7 +61,7 @@
 <script type="text/javascript">
 
     window.onload = function(){
-        var gender = "<?=$employee['gender'];?>";
+        var gender = "<?=$customer['gender'];?>";
 
         if(gender === "Male"){
             document.getElementById("male").checked = true;
@@ -76,6 +77,7 @@
 
 </script>
 
+
 <html>
 
 <head>
@@ -85,7 +87,7 @@
 
 <body>
 
-    <table width="100%" border="1px" height="630px" cellpadding="20px" cellspacing="0px" align="center">
+    <table width="100%" border="1px" height="600px" cellpadding="20px" cellspacing="0px" align="center">
 
         <tr>
             <td valign="middle" height="50px" colspan="3">
@@ -93,7 +95,7 @@
 
                 <div align="right">
 
-                    Logged in as <a href="Profile.html"><?=$employee['name'];?></a> |
+                    Logged in as <a href="#"><?=$customer['name'];?></a> |
                     <a href="../../Home.html">Logout</a>
 
                 </div>
@@ -118,17 +120,17 @@
 
                 </ul>
 
-                <h2>Admin Section</h2>
+                <h2>Customer Section</h2>
                 <hr>
                 <ul>
 
-                    <li><a href="../AdminSection/Revenue.html">View Revenue</a></li>
-                    <li><a href="../AdminSection/CreateEmployee.html">Create Employee</a></li>
-                    <li><a href="../AdminSection/ViewCustomers.html">View Customers</a></li>
-                    <li><a href="../AdminSection/ViewEmployees.html">View Employees</a></li>
-                    <li><a href="../AdminSection/ViewFares.html">View all Fares</a></li>
-                    <li><a href="../AdminSection/Insights.html">Insights</a></li>
-                    <li><a href="../AdminSection/ComplainBook.html">Complain Book</a></li>
+                    <li><a href="../CustomerSection/BookRide.html">Book a Ride</a></li>
+                    <li><a href="../CustomerSection/RideHistory.html">Ride History</a></li>
+                    <li><a href="../CustomerSection/CancelRide.html">Cancel Booked Ride</a></li>
+                    <li><a href="../CustomerSection/Invoice.html">View Invoices</a></li>
+                    <li><a href="../CustomerSection/Issue.html">Report an Issue</a></li>
+                    <li><a href="../CustomerSection/Review.html">Write a Review</a></li>
+
 
                 </ul>
 
@@ -142,13 +144,13 @@
 
                         <legend>EDIT PROFILE</legend>
 
-                        <p>Name: <input type="text" name="name" value="<?=$employee['name'];?>"></p>
+                        <p>Name: <input type="text" name="name" value="<?=$customer['name'];?>"></p>
                         <hr>
-                        <p>Full Name: <input type="text" name="fullname" value="<?=$employee['employee_full_name'];?>"></p>
+                        <p>Full Name: <input type="text" name="fullname" value="<?=$customer['customer_full_name'];?>"></p>
                         <hr>
-                        <p>Email: <input type="email" name="email" value="<?=$employee['email'];?>"></p>
+                        <p>Email: <input type="email" name="email" value="<?=$customer['email'];?>"></p>
                         <hr>
-                        <p>Username: <input type="text" name="username" value="<?=$employee['username'];?>"> <i> e.g. emp-john</i></p>
+                        <p>Username: <input type="text" name="username" value="<?=$customer['username'];?>"> <i> e.g. cus-john</i></p>
                         <hr>
                         <p>Gender:
 
@@ -158,14 +160,12 @@
 
                         </p>
                         <hr>
-                        <p>Phone: <input type="tel" name="phone" value="<?=$employee['phone'];?>"></p>
+                        <p>Phone: <input type="tel" name="phone" value="<?=$customer['phone'];?>"></p>
                         <hr>
                         <div id="errorDiv"></div>
                         <input type="submit" value="Submit">
 
                     </fieldset>
-
-                </form>
 
             </td>
 
