@@ -1,6 +1,4 @@
-<?php require_once (realpath(dirname(__FILE__)."/../../../core/validation_service.php")); ?>
-<?php require_once (realpath(dirname(__FILE__)."/../../../core/customer_service.php")); ?>
-<?php require_once (realpath(dirname(__FILE__)."/../../../core/rides_service.php")); ?>
+<?php require_once (realpath(dirname(__FILE__)."/../../../core/employee_service.php")); ?>
 
 <?php
 
@@ -9,7 +7,7 @@
         header("location: ../../Login.html");
     }
     else{
-        $customer = getCustomerById($_SESSION['id']);
+        $employee = getEmployeeById($_SESSION['id']);
     }
 
 ?>
@@ -22,15 +20,15 @@
 
 <body>
 
-    <table width="100%" border="1px" height="600px" cellpadding="20px" cellspacing="0px" align="center">
+    <table width="100%" border="1px" height="630px" cellpadding="20px" cellspacing="0px" align="center">
 
         <tr>
             <td valign="middle" height="50px" colspan="3">
-                <img src="../../Resources/x.png" width="200px" align="left">
+                <img src="../../Resources/x.png" width="150px" align="left">
 
                 <div align="right">
 
-                    Logged in as <a href="Profile.html"><?=$customer['name'];?></a> |
+                    Logged in as <a href="../AccountSection/Profile.html"><?=$employee['name'];?></a> |
                     <a href="../../Home.html">Logout</a>
 
                 </div>
@@ -55,16 +53,16 @@
 
                 </ul>
 
-                <h2>Customer Section</h2>
+                <h2>Driver Section</h2>
                 <hr>
                 <ul>
 
-                    <li><a href="../CustomerSection/BookRide.html">Book a Ride</a></li>
-                    <li><a href="../CustomerSection/RideHistory.html">Ride History</a></li>
-                    <li><a href="../CustomerSection/CancelRide.html">Cancel Booked Ride</a></li>
-                    <li><a href="../CustomerSection/Invoice.html">View Invoices</a></li>
-                    <li><a href="../CustomerSection/Issue.html">Report an Issue</a></li>
-                    <li><a href="../CustomerSection/Review.html">Write a Review</a></li>
+                    <li><a href="../DriverSection/AvailableFares.html">Available Fares</a></li>
+                    <li><a href="../DriverSection/AllFares.html">All Fares</a></li>
+                    <li><a href="../DriverSection/QueuedFares.html">Queued Fares</a></li>
+                    <li><a href="../DriverSection/EmployeeInfo.html">Employee Information</a></li>
+                    <li><a href="../DriverSection/GetDirections.html">Get Directions</a></li>
+                    <li><a href="../DriverSection/Issue.html">Report an Issue</a></li>
 
 
                 </ul>
@@ -79,22 +77,25 @@
 
                         <legend>PROFILE</legend>
 
-                        <table cellspacing="50px">
+                        <table cellspacing="25px">
 
                             <tr>
 
-                                <td colspan="3">
+                                <td colspan="3" align="left">
 
-                                    Name: <?=$customer['name'];?>
-                                    <hr> Username: <?=$customer['username'];?>
-                                    <hr> Email: <?=$customer['email'];?>
-                                    <hr> Gender: <?=$customer['gender'];?>
-                                    <hr> Phone: <?=$customer['phone'];?>
+                                    Name: <?=$employee['name'];?>
+                                    <hr> Username: <?=$employee['username'];?>
+                                    <hr> Email: <?=$employee['email'];?>
+                                    <hr> Gender: <?=$employee['gender'];?>
+                                    <hr> Phone: <?=$employee['phone'];?>
+                                    <hr> Join Date: <?=$employee['join_date'];?>
+                                    <hr> Rating: <?=$employee['rating'];?>
+                                    <hr> Salary: <?=$employee['salary'];?>
                                     <hr>
 
                                 </td>
 
-                                <td>
+                                <td align="right">
 
                                     <img src="person.jpg" width="200px">
                                     <br>
@@ -106,7 +107,7 @@
 
                             <tr>
 
-                                <td align="left" colspan="3"><a href="EditProfile.html">Edit Profile</a></td>
+                                <td align="left" colspan="2"><a href="EditProfile.html">Edit Profile</a></td>
 
                             </tr>
 

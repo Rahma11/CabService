@@ -1,6 +1,4 @@
 <?php require_once (realpath(dirname(__FILE__)."/../../../core/employee_service.php")); ?>
-<?php require_once (realpath(dirname(__FILE__)."/../../../core/customer_service.php")); ?>
-<?php require_once (realpath(dirname(__FILE__)."/../../../core/rides_service.php")); ?>
 
 <?php
 
@@ -9,11 +7,10 @@
         header("location: ../../Login.html");
     }
     else{
-        $customer = getCustomerById($_SESSION['id']);
+        $employee = getEmployeeById($_SESSION['id']);
     }
 
 ?>
-
 <html>
 
 <head>
@@ -27,11 +24,11 @@
 
         <tr>
             <td valign="middle" height="50px" colspan="3">
-                <img src="../../Resources/x.png" width="200px" align="left">
+                <img src="../../Resources/x.png" width="150px" align="left">
 
                 <div align="right">
 
-                    Logged in as <a href="Profile.html"><?=$customer['name'];?></a> |
+                    Logged in as <a href="../AccountSection/Profile.html"><?=$employee['name'];?></a> |
                     <a href="../../Home.html">Logout</a>
 
                 </div>
@@ -56,16 +53,16 @@
 
                 </ul>
 
-                <h2>Customer Section</h2>
+                <h2>Driver Section</h2>
                 <hr>
                 <ul>
 
-                    <li><a href="../CustomerSection/BookRide.html">Book a Ride</a></li>
-                    <li><a href="../CustomerSection/RideHistory.html">Ride History</a></li>
-                    <li><a href="../CustomerSection/CancelRide.html">Cancel Booked Ride</a></li>
-                    <li><a href="../CustomerSection/Invoice.html">View Invoices</a></li>
-                    <li><a href="../CustomerSection/Issue.html">Report an Issue</a></li>
-                    <li><a href="../CustomerSection/Review.html">Write a Review</a></li>
+                    <li><a href="../DriverSection/AvailableFares.html">Available Fares</a></li>
+                    <li><a href="../DriverSection/AllFares.html">All Fares</a></li>
+                    <li><a href="../DriverSection/QueuedFares.html">Queued Fares</a></li>
+                    <li><a href="../DriverSection/EmployeeInfo.html">Employee Information</a></li>
+                    <li><a href="../DriverSection/GetDirections.html">Get Directions</a></li>
+                    <li><a href="../DriverSection/Issue.html">Report an Issue</a></li>
 
 
                 </ul>
@@ -74,9 +71,7 @@
 
             <td colspan="2" width="70%" valign="top" align="center">
 
-                <h1>Greetings <?=$customer['name'];?></h1>
-
-                <h3>You haven't booked any rides yet, <a href="../CustomerSection/BookRide.html">Book one now!</a></h3>
+                <h1>Welcome <?=$employee['name'];?></h1>
 
                 <table width="100%">
                     <tr>
@@ -90,11 +85,13 @@
                             <h2>Also checkout..</h2>
                             <ul>
 
-                                <li><h3><a href="#">Your Ride History</a></h3></li>
-                                <li><h3><a href="#">Flight Times</a></h3></li>
+                                <li><h3><a href="../DriverSection/AvailableFares.html">Available Fares</a></h3></li>
+                                <li><h3><a href="../DriverSection/MyRatings.html">My Ratings</a></h3></li>
+                                <li><h3><a href="../DriverSection/SalaryInfo.html">Salary Information</a></h3></li>
+                                <li><h3><a href="../../FlightTimes.html">Flight Times</a></h3></li>
 
                             </ul>
-                            <h3>Have a complain? <a href="../CustomerSection/Issue.html">Report here</a></h3>
+                            <h3>Have a complain? <a href="../DriverSection/Issue.html">Report here</a></h3>
 
                         </td>
                     </tr>
