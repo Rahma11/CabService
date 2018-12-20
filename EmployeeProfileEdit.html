@@ -1,0 +1,263 @@
+<?php require_once (realpath(dirname(__FILE__)."/../../../core/employee_service.php")); ?>
+<?php require_once (realpath(dirname(__FILE__)."/../../../core/validation_service.php")); ?>
+
+<?php
+
+    session_start();
+    if(!$_SESSION['id']){
+        header("location: ../../Login.html");
+    }
+    else{
+        $employee = getEmployeeById($_SESSION['id']);
+    }
+
+    $employees = getEmployeeById($_GET['id']);
+
+    if($_SERVER['REQUEST_METHOD']=="POST"){
+        //var_dump($_POST);
+        $status = true;
+        $errorMessage = "";
+
+        $name = $_POST['name'];
+        $fullname = $_POST['fullname'];
+        $username = $_POST['username'];
+        $email = $_POST['email'];
+        $phone = $_POST['phone'];
+        $password = $_POST['password'];
+        $salary = $_POST['salary'];
+        if(isset($_POST['gender'])){
+            $gender = $_POST['gender'];
+        }
+        else{
+            $errorMessage .= "Must select a gender<br>";
+        }
+        if(isset($_POST['type'])){
+            $type = $_POST['type'];
+        }
+        else{
+            $errorMessage .= "Must select employee type<br>";
+        }
+
+        if(!validateName($name)){
+            $status = false;
+            $errorMessage .= "Name is not valid!<br>";
+        }
+
+        if(!validateFullName($fullname)){
+            $status = false;
+            $errorMessage .= "Full name is not valid!<br>";
+        }
+
+        if(!validateEmail($email)){
+            $status = false;
+            $errorMessage .= "Email is not valid!<br>";
+        }
+        if(!validateUsername($username)){
+            $status = false;
+            $errorMessage .= "Username is not valid!<br>";
+        }
+
+        if(!checkPassword($password)){
+            $status = false;
+            $errorMessage .= "Password cannot be empty!<br>";
+        }
+        if(!validatePhone($phone)){
+            $status = false;
+            $errorMessage .= "Phone is not valid!<br>";
+        }
+        //var_dump($status);
+        if($status){
+            if(!updateEmployee($employees['id'], $name, $fullname, $username, $password, $email, $phone, $salary, $type, $gender)){
+                $status = false;
+            }
+            else{
+                $status = true;
+            }
+        }
+    }
+
+?>
+
+<script type="text/javascript">
+
+    window.onload = function(){
+        var gender = "<?=$employees['gender'];?>";
+
+        if(gender === "Male"){
+            document.getElementById("male").checked = true;
+        }
+        else if(gender === "Female"){
+            document.getElementById("female").checked = true;
+        }
+        else {
+            document.getElementById("other").checked = true;
+        }
+
+        var type = "<?=$employees['type'];?>";
+        if(type === "Admin"){
+            document.getElementById("admin").selected = true;
+        }
+        else if (type === "Driver") {
+            document.getElementById("driver").selected = true;
+        }
+    }
+
+</script>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>EDIT EMPLOYEE PROFILE</title>
+</head>
+
+<body>
+
+    <table width="100%" border="1px" height="600px" cellpadding="20px" cellspacing="0px" align="center">
+
+        <tr>
+            <td valign="middle" height="50px" colspan="3">
+                <img src="../../Resources/x.png" width="200px" align="left">
+
+                <div align="right">
+
+                    Logged in as <a href="../AccountSection/Profile.html"><?=$employee['name'];?></a> |
+                    <a href="../../Home.html">Logout</a>
+
+                </div>
+
+            </td>
+        </tr>
+
+        <tr height="450px">
+
+            <td valign="top" width="15%">
+
+                <h2>Account</h2>
+                <hr>
+                <ul>
+
+                    <li><a href="../AccountSection/Dashboard.html">Dashboard</a></li>
+                    <li><a href="../AccountSection/Profile.html">View Profile</a></li>
+                    <li><a href="../AccountSection/EditProfile.html">Edit Profile</a></li>
+                    <li><a href="../AccountSection/ProfilePicture.html">Change Profile Picture</a></li>
+                    <li><a href="../AccountSection/ChangePassword.html">Change Password</a></li>
+                    <li><a href="../../Home.html">Logout</a></li>
+
+                </ul>
+
+                <h2>Admin Section</h2>
+                <hr>
+                <ul>
+
+                    <li><a href="../AdminSection/Revenue.html">View Revenue</a></li>
+                    <li><a href="../AdminSection/CreateEmployee.html">Create Employee</a></li>
+                    <li><a href="../AdminSection/ViewCustomers.html">View Customers</a></li>
+                    <li><a href="../AdminSection/ViewEmployees.html">View Employees</a></li>
+                    <li><a href="../AdminSection/ViewFares.html">View all Fares</a></li>
+                    <li><a href="../AdminSection/Insights.html">Insights</a></li>
+                    <li><a href="../AdminSection/ComplainBook.html">Complain Book</a></li>
+
+                </ul>
+
+            </td>
+
+            <td colspan="2" width="70%" valign="middle">
+
+                <form method="post">
+
+                    <fieldset>
+
+                        <legend>EDIT EMPLOYEE PROFILE</legend>
+                        <table width="100%" height="100%" cellspacing="30px">
+                            <tr>
+                                <td>
+
+                                    <p>Name: <input type="text" name="name" value="<?=$employees['name'];?>"></p>
+                                    <hr>
+                                    <p>Full Name: <input type="text" name="fullname" value="<?=$employees['employee_full_name'];?>"></p>
+                                    <hr>
+                                    <p>Email: <input type="email" name="email" value="<?=$employees['email'];?>"></p>
+                                    <hr>
+                                    <p>Password: <input type="password" name="password" value="<?=$employees['password'];?>"></p>
+                                    <hr>
+                                    <p>Username: <input type="text" name="username" value="<?=$employees['username'];?>"> <i> e.g. emp-john</i></p>
+                                    <hr>
+                                    <p>Employee Type:
+                                        <select name="type">
+                                            <option value="Admin" id="admin">Admin</option>
+                                            <option value="Driver" id="driver">Driver</option>
+                                        </select>
+                                    </p>
+                                    <hr>
+                                    <p>Gender:
+
+                                        <input type="radio" name="gender" id="male" value="Male">Male
+                                        <input type="radio" name="gender" id="female" value="Female">Female
+                                        <input type="radio" name="gender" id="other" value="Other">Other
+
+                                    </p>
+                                    <hr>
+                                    <p>Phone: <input type="tel" name="phone" value="<?=$employees['phone'];?>"></p>
+                                    <hr>
+                                    <p>Salary: <input type="text" name="salary" value="<?=$employees['salary'];?>"></p>
+                                    <div id="errorDiv"></div>
+
+                                </td>
+                                <td>
+
+                                    <img src="../AccountSection/person.jpg" width="200px">
+                                    <br>
+                                    Change <input type="file" name="" value="">
+
+                                </td>
+                            </tr>
+                        </table>
+
+
+                        <hr>
+                        <input type="submit" value="Submit">
+
+                    </fieldset>
+
+                </form>
+
+            </td>
+
+        </tr>
+
+        <tr height="50px">
+
+            <td colspan="3" align="center">
+
+                <a href="../../About.html">About</a> |
+                <a href="../../Terms.html">Terms</a> |
+                <a href="../../Privacy.html">Privacy</a>
+
+            </td>
+
+        </tr>
+
+    </table>
+
+    <script type="text/javascript">
+
+        var status = "<?=$status;?>";
+        var errorMessage = "<?=$errorMessage;?>";
+        var errorDiv = document.getElementById("errorDiv");
+        errorDiv.style.fontSize = 25+"px";
+
+        if(status){
+            errorDiv.innerHTML = "<p>Record updated successfully!</p>";
+            errorDiv.style.color = "green";
+        }
+        else {
+            errorDiv.innerHTML = errorMessage;
+            errorDiv.style.color = "red";
+        }
+
+    </script>
+
+</body>
+
+</html>
